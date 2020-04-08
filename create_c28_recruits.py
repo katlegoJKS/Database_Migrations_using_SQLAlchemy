@@ -4,10 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-# connection = psycopg2.connect(database='prod', user='postgres', password='pass', host='localhost')
-# cursor = connection.cursor()
+connection = psycopg2.connect(database='prod', user='postgres', password='pass', host='localhost')
+cursor = connection.cursor()
 
-# query = """INSERT INTO recruits(personal_email) VALUES ('Shaun.example.com')"""
+query = """INSERT INTO recruits(first_name, surname, rocketchat_user, github_name, personal_email, cohort) 
+VALUES 
+('Tapz','Thomas','Tapz28','TapzGHub','Tapz@example.com','C28 Data Eng'),
+('Peter','Parker','PeteP28','PeterPGHub','PP@example.com','C28 Data Eng'),
+('Bruce','Wayne','BruceW28','BruceGHub','BW@example.com','C28 Data Eng'),
+('Dave','East','Dave28','DaveEGHub','DEast@example.com','C28 Data Eng'),
+('Lass','Man','Lass28','LassGHub','Lass@example.com','C28 Data Eng');"""
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pass@127.0.0.1/prod'
@@ -33,7 +39,7 @@ class Recruits(db.Model):
     personal_email = db.Column(db.VARCHAR(20), unique=True)
     cohort = db.Column(db.VARCHAR(20))
 
-# cursor.execute(query)
-# connection.commit()
+cursor.execute(query)
+connection.commit()
 if __name__=='__main__':
     manager.run()
