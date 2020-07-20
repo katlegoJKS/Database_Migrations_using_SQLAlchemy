@@ -1,10 +1,16 @@
 import psycopg2
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-connection = psycopg2.connect(database='prod', user='postgres', password='pass', host='localhost', port=5430)
+PGUSER = os.environ.get('USER')
+PASSWORD = os.environ.get('USER_PASSWORD')
+HOST = os.environ.get('HOSTNAME')
+
+connection = psycopg2.connect(database='prod', user=PGUSER, password=PASSWORD, host=HOST, port=5430)
 cursor = connection.cursor()
 
 query = """INSERT INTO recruits(first_name, surname, rocketchat_user, github_name, personal_email, cohort) 
@@ -41,5 +47,6 @@ class Recruits(db.Model):
 
 cursor.execute(query)
 connection.commit()
+
 if __name__=='__main__':
     manager.run()
